@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Product</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 40px; }
+        .container { width: 600px; max-width: 100%; box-sizing: border-box; margin: auto; background: white; padding: 30px; border-radius: 8px; }
+        h1 { color: rgb(45, 159, 221); text-align: center; }
+        label { color: rgb(45, 159, 221); display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; }
+        input, select { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .topbar, .buttons { margin-top: 20px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        button, .back { padding: 10px 20px; border: 0; border-radius: 5px; cursor: pointer; }
+        button { background: #447bcd; color: white; }
+        .back { background: #c3d315; color: white; text-decoration: none; }
+    </style>
+</head>
+<body>
+<main class="container">
+    <div class="topbar">
+        <span>Xin chào <strong><%= currentUser.username %></strong> (Saler)</span>
+        <form action="/logout" method="POST"><button type="submit">Đăng xuất</button></form>
+    </div>
+
+    <h1>Edit Product</h1>
+
+    <form action="/products/update/<%= product._id %>" method="POST">
+        <label for="productName">Product Name</label>
+        <input id="productName" type="text" name="productName" value="<%= product.productName %>" required>
+
+        <label for="category">Category</label>
+        <input id="category" type="text" name="category" value="<%= product.category %>" required>
+
+        <label for="stockStatus">Stock Status</label>
+        <select id="stockStatus" name="stockStatus" required>
+            <option value="in_stock" <%= product.stockStatus === "in_stock" ? "selected" : "" %>>In Stock</option>
+            <option value="out_of_stock" <%= product.stockStatus === "out_of_stock" ? "selected" : "" %>>Out of Stock</option>
+            <option value="discontinued" <%= product.stockStatus === "discontinued" ? "selected" : "" %>>Discontinued</option>
+        </select>
+
+        <label for="unitPrice">Unit Price</label>
+        <input id="unitPrice" type="number" name="unitPrice" min="0" value="<%= product.unitPrice %>" required>
+
+        <label for="tags">Tags</label>
+        <input id="tags" type="text" name="tags" value="<%= product.tags.join(', ') %>">
+
+        <div class="buttons">
+            <button type="submit">Save Changes</button>
+            <a href="/products" class="back">Back</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

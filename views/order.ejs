@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Management</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: rgb(45, 159, 221);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .add-btn {
+            display: block;
+            width: fit-content;
+            margin: 20px auto;           
+            background: #1827c6;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            color: rgb(45, 159, 221);
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #f0f0f0;
+        }
+
+        .update {
+            background: #ffc107;
+            color: black;
+            padding: 7px 10px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 7px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span>Xin chào <strong><%= currentUser.username %></strong> (Customer)</span>
+        <form action="/logout" method="POST">
+            <button type="submit" class="delete">Đăng xuất</button>
+        </form>
+    </div>
+
+    <h1>Product Orders</h1>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Customer Name</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Order Date</th>
+                <th>Total Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <% orders.forEach(order => { %>
+
+                <tr>
+
+                    <td>
+                        <%= order.customerName %>
+                    </td>
+
+                    <td>
+                        <%= order.productName %>
+                    </td>
+
+                    <td>
+                        <%= order.quantity %>
+                    </td>
+
+                    <td>
+                        <%= new Date(order.orderDate).toLocaleDateString() %>
+                    </td>
+
+                    <td>
+                        <%= order.totalPrice.toLocaleString("vi-VN") %> VND
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="/orders/update/<%= order._id %>"
+                            class="update">
+                            Update
+                        </a>
+
+                        <form
+                            action="/orders/delete/<%= order._id %>"
+                            method="POST"
+                            style="display:inline;">
+
+                            <button
+                                type="submit"
+                                class="delete"
+                                onclick="return confirm('Delete this order?')">
+                                Delete
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+            <% }) %>
+
+        </tbody>
+
+    </table>
+
+    <a href="/orders/create" class="add-btn">
+        + Create New Order
+    </a>
+
+</div>
+
+</body>
+</html>

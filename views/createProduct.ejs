@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: rgb(45, 159, 221);
+            text-align: center;
+        }
+
+        label {
+            color: rgb(45, 159, 221);
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .save {
+            background: #447bcd;
+            color: white;
+        }
+
+        .back {
+            background: #c3d315;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span>Xin chào <strong><%= currentUser.username %></strong> (Saler)</span>
+        <form action="/logout" method="POST">
+            <button type="submit">Đăng xuất</button>
+        </form>
+    </div>
+
+    <h1>Create New Product</h1>
+
+    <form action="/products/create" method="POST">
+
+        <label>Product Name</label>
+        <input 
+            type="text" 
+            name="productName" 
+            placeholder="Enter product name" 
+            required
+        >
+
+        <label>Category</label>
+        <input 
+            type="text" 
+            name="category" 
+            placeholder="Enter category" 
+            required
+        >
+
+        <label>Stock Status</label>
+        <select name="stockStatus" required>
+            <option value="">Select stock status</option>
+            <option value="in_stock">In Stock</option>
+            <option value="out_of_stock">Out of Stock</option>
+            <option value="discontinued">Discontinued</option>
+        </select>
+
+        <label>Unit Price</label>
+        <input 
+            type="number" 
+            name="unitPrice" 
+            min="0" 
+            placeholder="Enter unit price" 
+            required
+        >
+
+        <label>Tags</label>
+        <input 
+            type="text" 
+            name="tags" 
+            placeholder="Example: bestseller, wireless, accessory"
+        >
+
+        <div class="buttons">
+            <button type="submit" class="save">
+                Create Product
+            </button>
+
+            <a href="/products" class="back">
+                Back
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản lý Product</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 40px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 8px; }
+        h1 { color: rgb(45, 159, 221); text-align: center; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; }
+        .add-btn, button, .edit-btn { background: #1827c6; color: white; padding: 10px 15px; border: 0; border-radius: 5px; text-decoration: none; cursor: pointer; }
+        .edit-btn { background: #ffc107; color: #111; padding: 7px 10px; }
+        .delete-btn { background: #dc3545; padding: 7px 10px; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+        th { background: #f0f0f0; }
+        form { margin: 0; }
+    </style>
+</head>
+<body>
+<main class="container">
+    <div class="topbar">
+        <span>Xin chào <strong><%= currentUser.username %></strong> (Saler)</span>
+        <form action="/logout" method="POST"><button type="submit">Đăng xuất</button></form>
+    </div>
+    <h1>Product Management</h1>
+    <a href="/products/create" class="add-btn">+ Create New Product</a>
+    <table>
+        <thead>
+            <tr><th>Product Name</th><th>Category</th><th>Stock Status</th><th>Unit Price</th><th>Tags</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            <% products.forEach(product => { %>
+                <tr>
+                    <td><%= product.productName %></td>
+                    <td><%= product.category %></td>
+                    <td><%= product.stockStatus %></td>
+                    <td><%= product.unitPrice.toLocaleString("vi-VN") %> VND</td>
+                    <td><%= product.tags.join(", ") %></td>
+                    <td>
+                        <a href="/products/update/<%= product._id %>" class="edit-btn">Edit</a>
+                        <form action="/products/delete/<%= product._id %>" method="POST" style="display:inline;"
+                            onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+            <% if (products.length === 0) { %>
+                <tr><td colspan="6">Chưa có sản phẩm.</td></tr>
+            <% } %>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

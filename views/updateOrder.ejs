@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Order</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: rgb(45, 159, 221);
+            text-align: center;
+        }
+
+        label {
+            color: rgb(45, 159, 221);
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .save {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .back {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span>Xin chào <strong><%= currentUser.username %></strong> (Customer)</span>
+        <form action="/logout" method="POST">
+            <button type="submit">Đăng xuất</button>
+        </form>
+    </div>
+
+    <h1>Update Order</h1>
+
+    <form action="/orders/update/<%= order._id %>" method="POST">
+
+        <label>Customer Name</label>
+
+        <input
+            type="text"
+            name="customerName"
+            value="<%= order.customerName %>"
+            required
+        >
+
+        <label>Product Name</label>
+
+        <select name="productName" required>
+
+            <% products.forEach(product => { %>
+
+                <option
+                    value="<%= product.productName %>"
+                    <%= product.productName === order.productName ? "selected" : "" %>
+                >
+                    <%= product.productName %>
+                </option>
+
+            <% }) %>
+
+        </select>
+
+        <label>Quantity</label>
+
+        <input
+            type="number"
+            name="quantity"
+            min="1"
+            value="<%= order.quantity %>"
+            required
+        >
+
+        <label>Order Date</label>
+
+        <input
+            type="date"
+            name="orderDate"
+            min="<%= minOrderDate %>"
+            value="<%= new Date(order.orderDate).toISOString().split('T')[0] %>"
+            required
+        >
+
+        <div class="buttons">
+
+            <button
+                type="submit"
+                class="save">
+                Update Order
+            </button>
+
+            <a
+                href="/orders"
+                class="back">
+                Back
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>
